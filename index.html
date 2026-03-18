@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#5ccf9f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="PA01 Coleta">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/svg+xml"
+      href="data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDA3YmZmIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZ
+      y8yMDAwL3N2ZyI+PHBhdGggZD0iTTMgM2gxMmwzIDN2MTVoLTE4di0xOHptMTQgMThoMnYtMTBoLTJ2MTB6bS0xMi0xMGg4di00aC04djR6Ii8+PC9zdmc+">
+
+<title>PA01 – 💾 –</title>
+<style>
+  * { box-sizing: border-box; }
+
+  body { 
+    background-color: rgb(193, 240, 241);
+    font-family: Arial, sans-serif; 
+    margin: 12px; 
+    display: flex;
+    flex-direction: column;
+  }
+
+  h2 { font-size: 1.2rem; margin: 10px 0; text-align: center; }
+
+  .acoes {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+  }
+
+  button {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 120px;
+    padding: 12px 5px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 13px;
+  }
+
+  #btnConectar {
+    flex: 1 1 100%;
+    background-color: #d16570; 
+    color: white;
+    font-size: 15px;
+  }
+
+  #btnConectar.online { background-color: #28a745; }
+
+  #btnListar, #btnBaixarSel, #btnBaixarTodos {
+    background-color: #5ccf9f; 
+    color: white;
+  }
+
+  #btnListar:not(:disabled):hover,
+  #btnBaixarSel:not(:disabled):hover,
+  #btnBaixarTodos:not(:disabled):hover { 
+    background-color: #4bb389; 
+    color: #000;
+  }
+
+  button:disabled {
+    background-color: #ccc !important;
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  #listaArquivos {
+    background-color: rgb(193, 240, 241);
+    border: 1px solid #000;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 10px;
+    outline: none;
+    font-family: monospace;
+  }
+
+  #log { 
+    background-color: rgb(193, 240, 241);
+    width: 100%; 
+    height: 180px; 
+    font-size: 11px;
+    border: 1px solid #000;
+    padding: 5px;
+    resize: none;
+    margin-top: 10px;
+  }
+
+  #progressoContainer { 
+    width: 100%; 
+    background: rgb(193, 240, 241); 
+    height: 18px; 
+    margin-top: 8px;
+    border: 1px solid #000;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  #progressoBar { 
+    width: 0%; 
+    height: 100%; 
+    background: #148818; 
+  }
+
+  .pendente { color: #d35400; font-weight: bold; }
+  .coletado { color: #165818; }
+  
+  .footer { font-size: 10px; color: #555; text-align: center; margin-top: 15px; }
+</style>
+</head>
+<body>
+
+<h2>PA01 Coleta de arquivos 💾</h2>
+
+<div class="acoes">
+    <button id="btnConectar">📡 CONECTAR</button>
+    <button id="btnListar" disabled>🔍 Listar Arquivos</button>
+    <button id="btnBaixarSel" disabled>📥 Selecionado</button>
+    <button id="btnBaixarTodos" disabled>📦 Baixar Tudo</button>
+</div>
+
+<select id="listaArquivos" size="10">
+    <option disabled selected> 🗂️ Aguardando listagem...</option>
+</select>
+
+<div id="progressoContainer">
+    <div id="progressoBar"></div>
+</div>
+<span id="progressoTexto" style="font-size: 12px; font-weight: bold;">➡️ 0%</span>
+
+<textarea id="log" readonly> 👀 Console Aguardando...</textarea>
+
+<div class="footer">Versão 1.2.0 | PWA + Bluetooth</div>
+
+<script type="module" src="./js/app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch((err) => {
+            console.error('Falha ao registrar Service Worker:', err);
+        });
+    });
+}
+</script>
+</body>
+</html>
